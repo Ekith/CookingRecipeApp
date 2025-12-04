@@ -1,0 +1,73 @@
+/* ======================================= */
+/* 2. Style de la Barre de Navigation (upbar) */
+/* ======================================= */
+
+.upbar {
+    /* Fond de la barre : un noir légèrement différent du fond principal pour la distinguer */
+    background-color: var(--couleur-fond-secondaire);
+    color: var(--couleur-texte-primaire);
+
+    /* Disposition Flexbox pour aligner le titre et les liens */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* Hauteur fixe et padding pour l'esthétique */
+    height: var(--hauteur-barre-sup);
+    padding: 0 var(--espacement-moyen);
+
+    /* Bordure inférieure pour séparation */
+    border-bottom: 2px solid var(--couleur-bordure);
+
+    /* Assurer que la barre prend toute la largeur et reste en haut */
+    width: 100%;
+    box-sizing: border-box; /* Inclure padding et border dans la width/height */
+}
+
+/* ======================================= */
+/* 3. Style du Titre de l'Application */
+/* ======================================= */
+
+.app-title {
+    /* Utilisation de la couleur accent (Vert Sombre) pour le titre */
+    font-size: var(--taille-police-titre);
+    margin: 0; /* Important pour l'alignement dans flexbox */
+}
+
+.logo {
+    /* Style pour le lien à l'intérieur du titre (le nom de l'application) */
+    text-decoration: none; /* Retirer le soulignement par défaut */
+    color: var(--couleur-accent);
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.logo:hover {
+    color: #00b300; /* Vert un peu plus clair au survol */
+}
+
+
+/* ======================================= */
+/* 4. Style de la Navigation (nav-links) */
+/* ======================================= */
+
+.nav-links {
+    display: flex;
+    gap: var(--espacement-moyen); /* Espacement entre les liens */
+}
+
+.nav-link {
+    /* Style de base des liens de navigation */
+    text-decoration: none;
+    color: var(--couleur-accent);
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.nav-link:hover {
+    /* Les liens deviennent vert clair au survol (couleur accent) */
+    background-color: #2a2a2a; /* Léger fond sombre au survol */
+    color: var(--couleur-accent);
+}

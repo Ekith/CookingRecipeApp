@@ -1,44 +1,66 @@
-import React, { useState } from "react";
-import {createClient} from "@supabase/supabase-js";
-import {supabase} from "../App";
+// File: src/View/Login.tsx
+import React, { useState } from 'react';
+import { supabase } from '../App';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // Empêche le rechargement de la page
+        e.preventDefault();
+        setMessage('');
+        setLoading(true);
 
-        let { data, error } = await supabase.auth.signInWithPassword({
-            email: username,
-            password: password,
-        })
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-        console.log(data)
+            if (error) {
+                setMessage(error.message);
+                console.error('signIn error', error);
+                return;
+            }
 
+            // Si tout va bien, data contient la session/l'utilisateur
+            setMessage('Connexion réussie');
+            // Rediriger vers la page principale (ajustez le chemin si nécessaire)
+            navigate('/');
+        } catch (err) {
+            console.error('signIn unexpected error', err);
+            setMessage('Une erreur est survenue lors de la connexion.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div>
-            <h1>Login Page</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
+        <div className="global-container">
+            <h1 className="bigTitle">Login Page</h1>
+            <form onSubmit={handleSubmit} className="form-container">
+                <div className="text-and-entry">
+                    <label htmlFor="email" className="text-entry">Email:</label>
                     <input
-                        type="text"
-                        id="username"
-                        name="username"
+                        className="entry"
+                        type="email"
+                        id="email"
+                        name="email"
                         required
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <div className="text-and-entry">
+                    <label htmlFor="password" className="text-entry">Password:</label>
                     <input
+                        className="entry"
                         type="password"
                         id="password"
                         name="password"
@@ -48,9 +70,11 @@ function Login() {
                     />
                 </div>
 
-                <button type="submit">Login</button>
+                <button type="submit" disabled={loading} className="validateButton">
+                    {loading ? 'Connexion...' : 'Login'}
+                </button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className="sub-container error-text">{message}</p>}
         </div>
     );
 }

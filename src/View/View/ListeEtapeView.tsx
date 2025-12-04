@@ -5,9 +5,9 @@ import EtapeView from "./EtapeView";
 function ListeEtapeView({listEtape} : {listEtape : Step[]})
 {
     return (
-        <div>
-            <h3>Liste des Étapes</h3>
-            <ul>
+        <div className="sub-container">
+            <h1 className="title">Liste des Étapes</h1>
+            <ul className="list border-up">
                 {listEtape.map((etape) => (
                     <EtapeView etape={etape} />
                 ))}

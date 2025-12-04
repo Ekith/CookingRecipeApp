@@ -1,0 +1,19 @@
+/* ======================================= */
+/* 1. Variables de Couleurs Globales */
+/* ======================================= */
+:root {
+    /* Couleurs de base du thème */
+    --couleur-fond-principal: #121212;
+    --couleur-fond-secondaire: #1e1e1e;
+    --couleur-texte-primaire: #f0f0f0;
+    --couleur-texte-secondaire: #b3b3b3;
+    --couleur-accent: #ffbb00;
+    --couleur-danger: #cc0000;
+    --couleur-bordure: #333333;
+    --couleur-green-save: #008000;
+
+    /* Tailles et Espacements */
+    --taille-police-titre: 1.5em;
+    --espacement-moyen: 15px;
+    --rayon-bordure-carte: 8px;
+}

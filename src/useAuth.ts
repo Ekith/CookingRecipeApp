@@ -1,44 +1,52 @@
-// useAuth.ts
+// File: src/useAuth.ts
 import { useState, useEffect } from 'react';
-import { supabase } from './App'; // Assurez-vous que ce chemin est correct
-import { User } from '@supabase/supabase-js'; // Importation du type User
+import { supabase } from './App';
+import { User } from '@supabase/supabase-js';
 
-// Interface pour le résultat de notre hook
 interface AuthState {
     user: User | null;
     loading: boolean;
 }
 
 export const useAuth = (): AuthState => {
-    // Déclarons l'état avec le type User de Supabase, qui peut être null
-    const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [user, setUser] = useState<User | null>(null); // User : null si non authentifié, objet User sinon
+    const [loading, setLoading] = useState<boolean>(true); // Loading : true tant que l'état d'authentification est en cours de détermination
 
     useEffect(() => {
-        // Fonction asynchrone pour l'initialisation de la session
-        const getInitialSession = async () => {
-            const {
-                data: { session },
-            } = await supabase.auth.getSession();
+        let mounted = true;
 
-            setUser(session?.user ?? null);
-            setLoading(false);
+        const getInitialSession = async () => {
+            try {
+                const { data, error } = await supabase.auth.getSession();
+                if (error) {
+                    console.error('supabase.getSession error', error);
+                    if (mounted) setUser(null);
+                    return;
+                }
+                if (mounted) setUser(data?.session?.user ?? null);
+            } catch (err) {
+                console.error('getInitialSession unexpected error', err);
+                if (mounted) setUser(null);
+            } finally {
+                if (mounted) setLoading(false);
+            }
         };
 
         getInitialSession();
 
-        // Écouter les changements futurs
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(
-            (event, session) => {
-                // Le type 'session' est géré par l'écouteur
-                setUser(session?.user ?? null);
-                setLoading(false);
-            }
-        );
+        const { data } = supabase.auth.onAuthStateChange((event, session) => {
+            if (!mounted) return;
+            setUser(session?.user ?? null);
+            setLoading(false);
+        });
 
-        // Nettoyer l'abonnement
+        const subscription = data?.subscription;
+
         return () => {
-            subscription.unsubscribe();
+            mounted = false;
+            if (subscription && typeof subscription.unsubscribe === 'function') {
+                subscription.unsubscribe();
+            }
         };
     }, []);
 

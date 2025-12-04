@@ -1,31 +1,45 @@
+import { useState } from "react";
+import { StepTmp } from "./types";
 import CreerEtape from "./CreerEtape";
-import {useState} from "react";
 
-type EtapeItem = { id: number };
-
-function ListeCreerEtape() {
-
-    const [etapes, setEtapes] = useState<EtapeItem[]>([{ id: Date.now() }]);
-
-    function addEtape() {
-        setEtapes(prev => [...prev, { id: Date.now() + Math.random() }]);
-    }
-
-    function removeEtape(id: number) {
-        setEtapes(prev => prev.filter(e => e.id !== id));
-    }
-
-    return (
-      <div>
-          <h3> Liste des étapes </h3>
-          {etapes.map((etape, index) => (
-              <div key={etape.id} style={{ marginBottom: 8 }}>
-                  <CreerEtape index={index} id={etape.id} onRemove={removeEtape} />
-              </div>
-          ))}
-          <button type="button" onClick={addEtape}>Ajouter une étape</button>
-      </div>
-  );
+interface ListeCreerEtapeProps {
+    onChange: (steps: StepTmp[]) => void;
 }
 
-export default ListeCreerEtape;
+export default function ListeCreerEtape({ onChange }: ListeCreerEtapeProps) {
+    const [steps, setSteps] = useState<StepTmp[]>([]);
+
+    const addStep = () => {
+        const updated = [...steps, { description: "", order: steps.length + 1 }];
+        setSteps(updated);
+        onChange(updated);
+    };
+
+    const updateStep = <K extends keyof StepTmp>(
+        index: number,
+        field: K,
+        value: StepTmp[K]
+    ) => {
+        const updated = [...steps];
+        updated[index][field] = value;
+        setSteps(updated);
+        onChange(updated);
+    };
+
+    return (
+        <div className="sub-container">
+            <h1 className="title">Étapes :</h1>
+            {steps.map((step, i) => (
+                <div className="sub-container">
+                    <h1 className="tinyTitle">Étape {i+1}</h1>
+                    <CreerEtape
+                        key={i}
+                        data={step}
+                        onChange={(field, value) => updateStep(i, field, value)}
+                    />
+                </div>
+            ))}
+            <button onClick={addStep} className="tinyButton">Ajouter une étape</button>
+        </div>
+    );
+}

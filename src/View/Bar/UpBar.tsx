@@ -1,56 +1,47 @@
+import {useAuth} from "../../useAuth";
 
-type NavItem = { label: string; href: string };
+import "../../style/upBar.css"
+
+type NavItem = { label: string; href: string, needsAuth: boolean };
 
 const navItems: NavItem[] = [
-    { label: "Accueil", href: "/" },
-    { label: "Creer recette", href: "/creer-recette" },
-    { label: "Login", href: "/login" },
+    { label: "Accueil", href: "/", needsAuth: false },
+    { label: "Recettes", href: "/recettes", needsAuth: false },
+    { label: "Creer recette", href: "/creer-recette", needsAuth : true },
+    { label: "Login", href: "/login", needsAuth : false },
+    { label: "Disconnect", href: "/disconnect", needsAuth : true },
 ];
-
-const containerStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "10px 16px",
-    background: "#0b5cff",
-    color: "#fff",
-    boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-    position: "sticky",
-    top: 0,
-    zIndex: 1000,
-};
-
-const brandStyle: React.CSSProperties = { margin: 0, fontSize: 18, fontWeight: 600 };
-
-const navStyle: React.CSSProperties = { display: "flex", gap: 8 };
-
-const buttonStyle: React.CSSProperties = {
-    background: "transparent",
-    border: "1px solid rgba(255,255,255,0.2)",
-    color: "#fff",
-    padding: "6px 12px",
-    borderRadius: 6,
-    textDecoration: "none",
-    cursor: "pointer",
-    fontSize: 14,
-};
 
 
 
 function UpBar() {
+
+    const {user, loading} = useAuth();
+
     return (
-        <header style={containerStyle}>
-            <h1 style={brandStyle}>
-                <a href="/" style={{ color: "inherit", textDecoration: "none" }}>
-                    Recette App
+        <header className="upbar">
+            <h1 className="app-title">
+                <a href="/" className="logo">
+                    Cooking Reciepe App
                 </a>
             </h1>
-            <nav style={navStyle}>
-                {navItems.map((item) => (
-                    <a key={item.href} href={item.href} style={buttonStyle}>
+            <nav className="nav-links">
+                {navItems.map((item) => {
+
+
+                    if (item.label === "Login" && user) {
+                        return null;
+                    }
+                    if (item.needsAuth && !user) {
+                        return null;
+                    }
+
+                    return (
+                    <a key={item.href} href={item.href} className="nav-link">
                         {item.label}
                     </a>
-                ))}
+                    )
+                })}
             </nav>
         </header>
     )

@@ -1,0 +1,276 @@
+/* ---------------------------------- */
+/* 1. Conteneur Global et Titre */
+/* ---------------------------------- */
+
+.global-container {
+    /* Nouvelle configuration pour ancrer les éléments en haut */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Aligne les éléments au début (en haut) du conteneur */
+
+    min-height: 100vh; /* Assure que le conteneur prend au moins toute la hauteur de la vue */
+    background-color: var(--couleur-fond-principal); /* Couleur de fond principale */
+    padding: var(--espacement-moyen); /* Espacement autour du conteneur */
+    font-family: Arial, sans-serif; /* Police par défaut pour le texte */
+
+    /* Ajout d'un padding-top pour éviter que le contenu ne touche le bord supérieur */
+    padding-top: calc(2 * var(--espacement-moyen));
+}
+
+.title {
+    color: var(--couleur-accent);
+    font-size: var(--taille-police-titre);
+    margin-bottom: calc(2 * var(--espacement-moyen));
+}
+
+.bigTitle {
+    color: var(--couleur-accent);
+    /* Augmente la taille de police par défaut (ex: 1.5em * 1.5 = 2.25em) */
+    font-size: calc(var(--taille-police-titre) * 1.5);
+    margin-bottom: calc(2 * var(--espacement-moyen));
+    font-weight: bold; /* Mise en gras pour l'importance */
+}
+
+.tinyTitle {
+    color: var(--couleur-accent); /* Utilise la couleur secondaire pour un titre moins dominant */
+    /* Réduit la taille de police par défaut (ex: 1.5em * 0.7 = 1.05em, proche d'un texte normal) */
+    font-size: calc(var(--taille-police-titre) * 0.7);
+    margin-bottom: var(--espacement-moyen); /* Moins d'espacement pour un élément plus compact */
+}
+
+/* ---------------------------------- */
+/* 2. Formulaire et Champs de Saisie */
+/* ---------------------------------- */
+
+.form-container {
+    background-color: var(--couleur-fond-secondaire);
+    padding: calc(2 * var(--espacement-moyen));
+    border-radius: var(--rayon-bordure-carte);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+}
+
+.text-and-entry {
+    margin-bottom: var(--espacement-moyen);
+}
+
+.text-entry {
+    display: block;
+    color: var(--couleur-texte-secondaire);
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.entry {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--couleur-bordure);
+    border-radius: 4px;
+    background-color: var(--couleur-fond-principal);
+    color: var(--couleur-texte-primaire);
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+    transition: border-color 0.3s ease;
+}
+
+.entry:focus {
+    border-color: var(--couleur-accent);
+    outline: none; /* Supprime l'outline par défaut du navigateur */
+}
+
+/* ---------------------------------- */
+/* 3. Bouton */
+/* ---------------------------------- */
+
+.validateButton {
+    width: 100%;
+    padding: 12px;
+    margin-top: calc(2 * var(--espacement-moyen));
+    background-color: var(--couleur-accent);
+    color: var(--couleur-fond-principal); /* Texte sombre sur fond clair pour le contraste */
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.button:hover:not(:disabled) {
+    /* Assombrir la couleur d'accentuation au survol */
+    background-color: #006400;
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------------------------------- */
+/* 4. Texte (Erreur/Information) */
+/* ---------------------------------- */
+
+.normal-text {
+    /* Utilise la couleur de texte principale définie dans les variables (ex: #f0f0f0) */
+    color: var(--couleur-texte-secondaire);
+
+    /* Assure une taille de police standard (peut être omis si hérité, mais ajoute de la robustesse) */
+    font-size: 1em;
+
+    /* Retire les marges par défaut si c'est un bloc (comme un <p>)
+       afin de mieux contrôler l'espacement via d'autres conteneurs */
+    margin: 0;
+    padding: 0;
+}
+
+.error-text {
+    /* Utilise la couleur d'erreur définie dans les variables (ex: #ff4d4d) */
+    color: var(--couleur-danger);
+
+    /* Taille de police standard */
+    font-size: 1em;
+
+    /* Retire les marges par défaut pour un meilleur contrôle de l'espacement */
+    margin: 0;
+    padding: 0;
+}
+
+
+.valid-text {
+    /* Utilise la couleur d'erreur définie dans les variables (ex: #ff4d4d) */
+    color: var(--couleur-accent);
+
+    /* Taille de police standard */
+    font-size: 1em;
+
+    /* Retire les marges par défaut pour un meilleur contrôle de l'espacement */
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ---------------------------------- */
+/* 5. Bouton Compact (tinyButton) */
+/* ---------------------------------- */
+
+.tinyButton {
+    /* Hérite des propriétés du bouton standard */
+
+    /* Taille et Espacement Réduits */
+    padding: 6px 10px; /* Moins de padding vertical et horizontal */
+    font-size: 0.85em; /* Taille de police plus petite */
+
+    /* Reprend les autres styles de base du .button */
+    background-color: var(--couleur-accent);
+    color: var(--couleur-fond-principal);
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+
+    /* Pour s'assurer qu'il s'affiche correctement s'il est utilisé en ligne */
+    display: inline-block;
+}
+
+.tinyButton:hover:not(:disabled) {
+    /* Assombrir la couleur d'accentuation au survol (même règle) */
+    background-color: #006400;
+}
+
+.tinyButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ---------------------------------- */
+/* 6. Entrées sur la même ligne */
+/* ---------------------------------- */
+
+/* Conteneur pour grouper deux "text-and-entry" sur la même ligne */
+.row-entries {
+    display: flex; /* Active Flexbox */
+    gap: var(--espacement-moyen); /* Ajoute un espace entre les deux éléments */
+    margin-bottom: var(--espacement-moyen);
+}
+
+/* Appliquez cette classe au div "text-and-entry" pour qu'il prenne la moitié de l'espace */
+.text-and-entry.half-width {
+    flex: 1; /* Permet à chaque élément de prendre une part égale de l'espace disponible */
+    min-width: 0; /* Important pour le bon fonctionnement de flex-basis dans certains cas */
+}
+
+/* ---------------------------------- */
+/* 7. Conteneur de Sous-Section (sub-container) */
+/* ---------------------------------- */
+
+.sub-container {
+    /* Ajoute une marge au-dessus et en-dessous.
+       J'utilise l'espacement moyen défini dans vos variables. */
+    margin-top: var(--espacement-moyen);
+    margin-bottom: var(--espacement-moyen);
+
+    /* Assure qu'il prend la largeur complète de son parent */
+    width: 100%;
+
+    /* N'applique pas de couleur de fond, donc il est transparent et
+       laisse passer le fond du conteneur parent (ex: .form-container) */
+}
+
+.border-up {
+    border-top: 2px solid var(--couleur-bordure);
+}
+
+.border-down {
+    border-bottom: 2px solid var(--couleur-bordure);
+}
+
+.list {
+    list-style: none; /* Retirer les puces de la liste */
+    padding: 0;
+    background-color: transparent;
+}
+
+/* ---------------------------------- */
+/* 8. Styles des Cartes (Conteneurs d'éléments) */
+/* ---------------------------------- */
+
+
+.card {
+    background-color: var(--couleur-fond-secondaire);
+    border: 1px solid var(--couleur-bordure);
+    border-radius: var(--rayon-bordure-carte);
+    padding: var(--espacement-moyen);
+    transition: background-color 0.2s;
+}
+
+/* Effets de survol et interactivité */
+.card:hover {
+    background-color: #2a2a2a;
+    cursor: pointer;
+}
+
+
+/* ---------------------------------- */
+/* 8. Styles des Tableaux (Conteneurs d'éléments) */
+/* ---------------------------------- */
+
+.myTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.myBody {
+    width: 100%;
+}
+
+.myRow {
+    width: 100%;
+}
+
+.myCell {
+    padding: 10px;
+    border-bottom: 1px dashed var(--couleur-bordure);
+}

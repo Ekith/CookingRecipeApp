@@ -4,29 +4,29 @@ import IngredientView from "./IngredientView";
 
 function ListeIngredientView({listeIngredients}: {listeIngredients: Ingredient[]}) {
     const numberColumns = 3;
-  return (
-    <div>
-      <h2>Ingrédients :</h2>
-      {listeIngredients.length === 0 ? (
-      <p>Aucun ingrédient disponible.</p>
-      ) : (
-      <table>
-        <tbody>
-          {Array.from({ length: Math.ceil(listeIngredients.length / numberColumns) }).map((_, rowIndex) => (
-            <tr key={rowIndex}>
-              {listeIngredients.slice(rowIndex * numberColumns, (rowIndex + 1) * numberColumns).map((ingredient, colIndex) => (
-                <td key={colIndex} style={{ padding: '10px', border: '1px solid black' }}>
-                  <IngredientView ingredient={ingredient} />
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-        </table>
-        )
-      }
-    </div>
-  );
+
+    if (!listeIngredients || listeIngredients.length === 0) {
+        listeIngredients = [new Ingredient(-1, "Aucun ingrédient disponible", 0, "")];
+    }
+
+      return (
+          <div className="sub-container">
+              <h1 className="title">Ingrédients :</h1>
+                  <table className="myTable border-up">
+                      <tbody className="myBody">
+                      {Array.from({ length: Math.ceil(listeIngredients.length / numberColumns) }).map((_, rowIndex) => (
+                          <tr key={rowIndex} className="myRow">
+                              {listeIngredients.slice(rowIndex * numberColumns, (rowIndex + 1) * numberColumns).map((ingredient, colIndex) => (
+                                  <td key={colIndex} className="myCell">
+                                      <IngredientView ingredient={ingredient} />
+                                  </td>
+                              ))}
+                          </tr>
+                      ))}
+                      </tbody>
+                  </table>
+          </div>
+      );
 }
 
 export default ListeIngredientView;

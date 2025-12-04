@@ -1,32 +1,47 @@
+import { useState } from "react";
+import { IngredientTmp } from "./types";
 import CreerIngredient from "./CreerIngredient";
-import {useState} from "react";
-import CreerEtape from "./CreerEtape";
 
+interface ListeCreerIngredientProps {
+    onChange: (ingredients: IngredientTmp[]) => void;
+}
 
-type IngredientItem = { id: number };
+export default function ListeCreerIngredient({ onChange }: ListeCreerIngredientProps) {
+    const [ingredients, setIngredients] = useState<IngredientTmp[]>([]);
 
-function ListeCreerIngredient() {
+    const addIngredient = () => {
+        const updated = [...ingredients, { name: "", quantity: "", unit: "" }];
+        setIngredients(updated);
+        onChange(updated);
+    };
 
-    const [ingredients, setIngredients] = useState<IngredientItem[]>([{ id: Date.now() }]);
+    const updateIngredient = (
+        index: number,
+        field: keyof IngredientTmp,
+        value: IngredientTmp[keyof IngredientTmp]
+    ) => {
+        const updated = [...ingredients];
+        updated[index][field] = value;
+        setIngredients(updated);
+        onChange(updated);
+    };
 
-    function addIngredients() {
-        setIngredients(prev => [...prev, { id: Date.now() + Math.random() }]);
-    }
-
-    function removeIngredient(id: number) {
-        setIngredients(prev => prev.filter(e => e.id !== id));
-    }
     return (
-        <div>
-            <h3>Liste des ingrédients</h3>
-            {ingredients.map((ingredient, index) => (
-                <div key={ingredient.id} style={{ marginBottom: 8 }}>
-                    <CreerIngredient index={index} id={ingredient.id} onRemove={removeIngredient} />
+        <div className="sub-container">
+            <h1 className="title">Ingrédients</h1>
+
+            {ingredients.map((ing, i) => (
+                <div className="sub-container">
+                    <h1 className="tinyTitle">Ingredient {i+1}</h1>
+                    <CreerIngredient
+                        key={i}
+                        data={ing}
+                        onChange={(field, value) => updateIngredient(i, field, value)}
+                    />
                 </div>
-            ))}
-            <button type="button" onClick={addIngredients} >Ajouter un ingrédient</button>
+    ))}
+
+            <button onClick={addIngredient} className="tinyButton">Ajouter un ingrédient</button>
         </div>
     );
 }
-
-export default ListeCreerIngredient;
