@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/CookingReciepeApp/static/css/main.0fb91480.css",
-    "main.js": "/CookingReciepeApp/static/js/main.a3119620.js",
+    "main.js": "/CookingReciepeApp/static/js/main.3b7583a5.js",
     "static/js/453.8d5d0413.chunk.js": "/CookingReciepeApp/static/js/453.8d5d0413.chunk.js",
     "index.html": "/CookingReciepeApp/index.html",
     "main.0fb91480.css.map": "/CookingReciepeApp/static/css/main.0fb91480.css.map",
-    "main.a3119620.js.map": "/CookingReciepeApp/static/js/main.a3119620.js.map",
+    "main.3b7583a5.js.map": "/CookingReciepeApp/static/js/main.3b7583a5.js.map",
     "453.8d5d0413.chunk.js.map": "/CookingReciepeApp/static/js/453.8d5d0413.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.0fb91480.css",
-    "static/js/main.a3119620.js"
+    "static/js/main.3b7583a5.js"
   ]
 }
