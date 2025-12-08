@@ -1,11 +1,12 @@
 import {useState} from "react";
 import {IngredientTmp, RecipeTmp, StepTmp} from "../utils/types";
-import ListeCreerIngredient from "../common/create/ListeCreerIngredient";
-import ListeCreerEtape from "../common/create/ListeCreerEtape";
+import ListCreateIngredient from "../common/create/ListCreateIngredient";
+import ListCreateStep from "../common/create/ListCreateStep";
 import {supabase} from "../App";
+import {useNavigate} from "react-router-dom";
 
 
-export default function CreerRecette() {
+export default function CreateRecipe() {
     const [recipeData, setRecipeData] = useState<RecipeTmp>({
         name: "",
         description: "",
@@ -14,6 +15,8 @@ export default function CreerRecette() {
         ingredients: [],
         steps: []
     });
+    const navigate = useNavigate();
+
 
     // Mise à jour d'un champ simple
     const updateField = (field: keyof RecipeTmp, value: RecipeTmp[keyof RecipeTmp]) => {
@@ -41,7 +44,7 @@ export default function CreerRecette() {
         }
 
         const { data : id, error } = await supabase
-            .from('reciepe')
+            .from('recipe')
             .insert([
                 { description: recipeData.description, quantity: parseFloat(recipeData.quantity), unit: recipeData.unit, name: recipeData.name },
             ])
@@ -51,7 +54,7 @@ export default function CreerRecette() {
             console.error("Erreur lors de la création de la recette :", error);
             return;
         }
-        const reciepeId = id ? id[0].id : -1;
+        const recipeId = id ? id[0].id : -1;
 
         for (const ing of recipeData.ingredients) {
             const { data : id, error: ingError } = await supabase
@@ -67,9 +70,9 @@ export default function CreerRecette() {
 
             const ingredientId = id ? id[0].id : -1;
             await supabase
-                .from('a_reciepe_ingredient')
+                .from('a_recipe_ingredient')
                 .insert([
-                    { id_reciepe: reciepeId, id_ingredient: ingredientId, quantity: ing.quantity, unit: ing.unit },
+                    { id_recipe: recipeId, id_ingredient: ingredientId, quantity: ing.quantity, unit: ing.unit },
                 ]);
         }
 
@@ -86,17 +89,17 @@ export default function CreerRecette() {
             }
             const stepId = id ? id[0].id : -1;
             await supabase
-                .from('a_reciepe_step')
+                .from('a_recipe_step')
                 .insert([
-                    { id_reciepe: reciepeId, id_step: stepId, order: step.order },
+                    { id_recipe: recipeId, id_step: stepId, order: step.order },
                 ]);
             if (stepError) {
                 console.error("Erreur lors de la création de l'association étape-recette :", stepError);
                 return;
             }
         }
-        window.location.href = "/reciepes";
 
+        navigate("/recipes");
     };
 
     return (
@@ -119,8 +122,8 @@ export default function CreerRecette() {
                     </div>
                 </div>
 
-                <ListeCreerIngredient onChange={updateIngredients} />
-                <ListeCreerEtape onChange={updateSteps} />
+                <ListCreateIngredient onChange={updateIngredients} />
+                <ListCreateStep onChange={updateSteps} />
 
                 <button onClick={handleSubmit} className="validateButton">Créer</button>
             </div>

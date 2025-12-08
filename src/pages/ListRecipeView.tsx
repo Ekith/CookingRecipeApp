@@ -1,15 +1,15 @@
-import Reciepe from "../utils/Reciepe";
+import Recipe from "../utils/Recipe";
 import {useEffect, useState} from "react";
 import {supabase} from "../App";
 import {useAuth} from "../useAuth";
 import {useNavigate} from "react-router-dom";
 
 
-function ListeRecetteView () {
+function ListRecipeView () {
 
     const [deleteMode, setDeleteMode] = useState<boolean>(false);
 
-    const [reciepies, setReciepes] = useState<Reciepe[]>([]);
+    const [recipies, setRecipes] = useState<Recipe[]>([]);
 
     const { user, loading } = useAuth()
     const navigate = useNavigate();
@@ -17,61 +17,61 @@ function ListeRecetteView () {
 
     // se déclenche au chargement de la page
     useEffect(() => {
-        fetchReciepies()
+        fetchRecipies()
     }, [])
 
 
-    async function fetchReciepies(){
-        let { data: reciepe, error } = await supabase
-            .from('reciepe')
+    async function fetchRecipies(){
+        let { data: recipe, error } = await supabase
+            .from('recipe')
             .select('*')
 
         if (error) console.log('erreur')
 
-        setReciepes([]) // Clear the list before adding new reciepies
-        for (let r of reciepe as any[]){
-            const newReciepe = new Reciepe(r.id, r.name, r.description, r.quantity, r.unit);
-            setReciepes(prevReciepies => [...prevReciepies, newReciepe]);
+        setRecipes([]) // Clear the list before adding new recipies
+        for (let r of recipe as any[]){
+            const newRecipe = new Recipe(r.id, r.name, r.description, r.quantity, r.unit);
+            setRecipes(prevRecipies => [...prevRecipies, newRecipe]);
         }
     }
 
-    async function deleteReciepe(id: number){
+    async function deleteRecipe(id: number){
         // Get all ingredient ids associated with the recette
-        const { data: ingredientReciepe, error: ingredientReciepeError } = await supabase
-            .from('a_reciepe_ingredient')
+        const { data: ingredientRecipe, error: ingredientRecipeError } = await supabase
+            .from('a_recipe_ingredient')
             .select('id_ingredient')
-            .eq('id_reciepe', id);
-        if (ingredientReciepeError) {
+            .eq('id_recipe', id);
+        if (ingredientRecipeError) {
             console.log('Erreur lors de la récupération des ingrédients associés à la recette');
             return;
         }
 
         //Get all step ids associated with the recette
-        const { data: reciepeStep, error: reciepeStepError } = await supabase
-            .from('a_reciepe_step')
+        const { data: recipeStep, error: recipeStepError } = await supabase
+            .from('a_recipe_step')
             .select('id_step')
-            .eq('id_reciepe', id);
-        if (reciepeStepError) {
+            .eq('id_recipe', id);
+        if (recipeStepError) {
             console.log('Erreur lors de la récupération des étapes associées à la recette');
             return;
         }
 
-        // Delete all associations in a_reciepe_ingredient
-        const { error: deleteIngredientReciepeError } = await supabase
-            .from('a_reciepe_ingredient')
+        // Delete all associations in a_recipe_ingredient
+        const { error: deleteIngredientRecipeError } = await supabase
+            .from('a_recipe_ingredient')
             .delete()
-            .eq('id_reciepe', id);
-        if (deleteIngredientReciepeError) {
+            .eq('id_recipe', id);
+        if (deleteIngredientRecipeError) {
             console.log('Erreur lors de la suppression des associations ingrédients-recette');
             return;
         }
 
-        // Delete all associations in a_reciepe_step
-        const { error: deleteReciepeStepError } = await supabase
-            .from('a_reciepe_step')
+        // Delete all associations in a_recipe_step
+        const { error: deleteRecipeStepError } = await supabase
+            .from('a_recipe_step')
             .delete()
-            .eq('id_reciepe', id);
-        if (deleteReciepeStepError) {
+            .eq('id_recipe', id);
+        if (deleteRecipeStepError) {
             console.log('Erreur lors de la suppression des associations étapes-recette');
             return;
         }
@@ -80,14 +80,14 @@ function ListeRecetteView () {
         const { error: deleteIngredientStepError } = await supabase
             .from('a_step_ingredient')
             .delete()
-            .in('id_step', reciepeStep.map((rs: any) => rs.id_step));
+            .in('id_step', recipeStep.map((rs: any) => rs.id_step));
         if (deleteIngredientStepError) {
             console.log('Erreur lors de la suppression des associations ingrédients-étapes');
             return;
         }
 
         // Delete all ingredients associated with the recette
-        for (let ir of ingredientReciepe as any[]){
+        for (let ir of ingredientRecipe as any[]){
             const { error: deleteIngredientError } = await supabase
                 .from('ingredient')
                 .delete()
@@ -98,7 +98,7 @@ function ListeRecetteView () {
             }
         }
         // Delete all steps associated with the recette
-        for (let rs of reciepeStep as any[]){
+        for (let rs of recipeStep as any[]){
             const { error: deleteStepError } = await supabase
                 .from('step')
                 .delete()
@@ -109,25 +109,25 @@ function ListeRecetteView () {
             }
         }
         // Finally, delete the recette
-        const { error: deleteReciepeError } = await supabase
-            .from('reciepe')
+        const { error: deleteRecipeError } = await supabase
+            .from('recipe')
             .delete()
             .eq('id', id);
-        if (deleteReciepeError) {
+        if (deleteRecipeError) {
             console.log('Erreur lors de la suppression de la recette');
             return;
         }
 
         console.log('Recette supprimée avec succès');
-        // Refresh the list of reciepies
-        fetchReciepies();
+        // Refresh the list of recipies
+        fetchRecipies();
     }
 
 
-    function handleClick(reciepe: Reciepe) {
-        navigate('/reciepe', {
+    function handleClick(recipe: Recipe) {
+        navigate('/recipe', {
             state: {
-                reciepe: reciepe
+                recipe: recipe
             }
         })
     }
@@ -145,7 +145,7 @@ function ListeRecetteView () {
             }
 
             <div className="sub-container">
-                {reciepies.map((recette) => (
+                {recipies.map((recette) => (
                     <div
                         key={recette.id}
                         onClick={() => {
@@ -161,7 +161,7 @@ function ListeRecetteView () {
                                 <button
                                     onClick={async (e) => {
                                         e.stopPropagation(); // Empêche la propagation du clic au parent
-                                        await deleteReciepe(recette.id);
+                                        await deleteRecipe(recette.id);
                                     }}
                                     className="tinyButton"
                                 >
@@ -176,4 +176,4 @@ function ListeRecetteView () {
     );
 }
 
-export default ListeRecetteView;
+export default ListRecipeView;

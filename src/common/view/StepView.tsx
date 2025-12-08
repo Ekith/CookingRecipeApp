@@ -1,14 +1,14 @@
 import Step from "../../utils/Step";
 import {useEffect, useState} from "react";
 import {supabase} from "../../App";
-import ReciepeStep from "../../utils/ReciepeStep";
+import RecipeStep from "../../utils/RecipeStep";
 
 
-function EtapeView({etape} : {etape : Step}) {
+function StepView({etape} : {etape : Step}) {
 
 
     const [step, setStep] = useState<Step>(etape);
-    const [listReciepieStep, setListReciepeStep] = useState<ReciepeStep[]>([]);
+    const [listRecipieStep, setListRecipeStep] = useState<RecipeStep[]>([]);
 
 
     // se déclenche au chargement de la page
@@ -24,14 +24,14 @@ function EtapeView({etape} : {etape : Step}) {
             .eq('id_step', step.id);
 
 
-        if (error) console.log('erreur')
+        if (error) console.log("error", error.message);
 
         console.log(step_ingredient)
 
-        setListReciepeStep([]) // Clear the list before adding new ingredients
+        setListRecipeStep([]) // Clear the list before adding new ingredients
         for (let r of step_ingredient as any[]){
-            const newReciepeStep = new ReciepeStep(r.id_step, r.id_ingredient, r.proportion);
-            setListReciepeStep(prevReciepeStep => [...prevReciepeStep, newReciepeStep]);
+            const newRecipeStep = new RecipeStep(r.id_step, r.id_ingredient, r.proportion);
+            setListRecipeStep(prevRecipeStep => [...prevRecipeStep, newRecipeStep]);
         }
     }
 
@@ -45,4 +45,4 @@ function EtapeView({etape} : {etape : Step}) {
 }
 
 
-export default EtapeView;
+export default StepView;

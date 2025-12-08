@@ -2,7 +2,7 @@ import Ingredient from "../../utils/Ingredient";
 import IngredientView from "./IngredientView";
 
 
-function ListeIngredientView({listeIngredients}: {listeIngredients: Ingredient[]}) {
+function ListIngredientView({listeIngredients}: {listeIngredients: Ingredient[]}) {
     const numberColumns = 3;
 
     if (!listeIngredients || listeIngredients.length === 0) {
@@ -29,4 +29,4 @@ function ListeIngredientView({listeIngredients}: {listeIngredients: Ingredient[]
       );
 }
 
-export default ListeIngredientView;
+export default ListIngredientView;

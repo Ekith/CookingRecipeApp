@@ -5,7 +5,7 @@ interface CreerEtapeProps {
     onChange: FieldUpdaterTmp<StepTmp>;
 }
 
-export default function CreerEtape({ data, onChange }: CreerEtapeProps) {
+export default function CreateStep({ data, onChange }: CreerEtapeProps) {
     return (
         <div className="sub-container">
           <textarea

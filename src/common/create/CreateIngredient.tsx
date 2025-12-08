@@ -5,7 +5,7 @@ interface CreerIngredientProps {
     onChange: FieldUpdaterTmp<IngredientTmp>;
 }
 
-export default function CreerIngredient({ data, onChange }: CreerIngredientProps) {
+export default function CreateIngredient({ data, onChange }: CreerIngredientProps) {
     return (
         <div className="sub-container">
 

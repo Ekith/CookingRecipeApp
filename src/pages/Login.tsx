@@ -31,7 +31,7 @@ function Login() {
             // Si tout va bien, data contient la session/l'utilisateur
             setMessage('Connexion réussie');
             // Rediriger vers la page principale (ajustez le chemin si nécessaire)
-            navigate('/reciepes');
+            navigate('/recipes');
         } catch (err) {
             console.error('signIn unexpected error', err);
             setMessage('Une erreur est survenue lors de la connexion.');

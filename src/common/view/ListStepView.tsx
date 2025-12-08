@@ -1,19 +1,19 @@
 import Step from "../../utils/Step";
-import EtapeView from "./EtapeView";
+import StepView from "./StepView";
 
 
-function ListeEtapeView({listEtape} : {listEtape : Step[]})
+function ListStepView({listEtape} : {listEtape : Step[]})
 {
     return (
         <div className="sub-container">
             <h1 className="title">Liste des Étapes</h1>
             <ul className="list border-up">
                 {listEtape.map((etape) => (
-                    <EtapeView etape={etape} />
+                    <StepView etape={etape} />
                 ))}
             </ul>
         </div>
     );
 }
 
-export default ListeEtapeView;
+export default ListStepView;

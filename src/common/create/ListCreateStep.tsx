@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {StepTmp} from "../../utils/types";
-import CreerEtape from "./CreerEtape";
+import CreateStep from "./CreateStep";
 
 interface ListeCreerEtapeProps {
     onChange: (steps: StepTmp[]) => void;
 }
 
-export default function ListeCreerEtape({ onChange }: ListeCreerEtapeProps) {
+export default function ListCreateStep({ onChange }: ListeCreerEtapeProps) {
     const [steps, setSteps] = useState<StepTmp[]>([]);
 
     const addStep = () => {
@@ -32,7 +32,7 @@ export default function ListeCreerEtape({ onChange }: ListeCreerEtapeProps) {
             {steps.map((step, i) => (
                 <div className="sub-container">
                     <h1 className="tinyTitle">Étape {i+1}</h1>
-                    <CreerEtape
+                    <CreateStep
                         key={i}
                         data={step}
                         onChange={(field, value) => updateStep(i, field, value)}

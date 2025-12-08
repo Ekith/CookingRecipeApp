@@ -1,12 +1,12 @@
 import {useState} from "react";
 import {IngredientTmp} from "../../utils/types";
-import CreerIngredient from "./CreerIngredient";
+import CreateIngredient from "./CreateIngredient";
 
 interface ListeCreerIngredientProps {
     onChange: (ingredients: IngredientTmp[]) => void;
 }
 
-export default function ListeCreerIngredient({ onChange }: ListeCreerIngredientProps) {
+export default function ListCreateIngredient({ onChange }: ListeCreerIngredientProps) {
     const [ingredients, setIngredients] = useState<IngredientTmp[]>([]);
 
     const addIngredient = () => {
@@ -33,7 +33,7 @@ export default function ListeCreerIngredient({ onChange }: ListeCreerIngredientP
             {ingredients.map((ing, i) => (
                 <div className="sub-container">
                     <h1 className="tinyTitle">Ingredient {i+1}</h1>
-                    <CreerIngredient
+                    <CreateIngredient
                         key={i}
                         data={ing}
                         onChange={(field, value) => updateIngredient(i, field, value)}

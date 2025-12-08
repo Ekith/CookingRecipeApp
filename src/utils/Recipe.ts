@@ -2,7 +2,7 @@ import Ingredient from "./Ingredient";
 import Step from "./Step";
 
 
-class Reciepe {
+class Recipe {
     id : number;
     nom : string;
     description : string;
@@ -24,4 +24,4 @@ class Reciepe {
 }
 
 
-export default Reciepe;
+export default Recipe;

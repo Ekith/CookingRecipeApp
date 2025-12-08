@@ -1,5 +1,5 @@
 {
-  "name": "recettecuisine",
+  "name": "cookingrecipe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,15 +16,16 @@
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.9.6",
     "react-scripts": "5.0.1",
+    "replace-in-file": "^8.4.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && node fix-paths.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
+    "predeploy": "rm -fr build/ && npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
@@ -48,6 +49,5 @@
   "devDependencies": {
     "gh-pages": "^6.3.0"
   },
-  "homepage": "https://ekith.github.io/CookingReciepeApp",
-  "postbuild": "cp build/index.html build/404.html"
+  "homepage": "https://ekith.github.io/CookingRecipeApp/"
 }
