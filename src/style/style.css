@@ -294,3 +294,20 @@
     padding: 10px;
     border-bottom: 1px dashed var(--couleur-bordure);
 }
+
+
+/* ---------------------------------- */
+/* 9. Placement des elements */
+/* ---------------------------------- */
+
+.left {
+    align-self: flex-start;
+}
+
+.center {
+    align-self: center;
+}
+
+.right {
+    align-self: flex-end;
+}

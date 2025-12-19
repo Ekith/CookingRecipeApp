@@ -169,7 +169,7 @@ function ListRecipeView () {
                         }}
                         className="card"
                     >
-                        <h3 className="tinyTitle">{recette.nom}</h3>
+                        <h3 className="tinyTitle">{recette.name}</h3>
                         <p className="normal-text">{recette.description}</p>
                         <div className="sub-container">
                             {deleteMode && (

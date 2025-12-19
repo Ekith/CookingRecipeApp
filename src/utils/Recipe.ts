@@ -4,7 +4,7 @@ import Step from "./Step";
 
 class Recipe {
     id : number;
-    nom : string;
+    name : string;
     description : string;
     quantity : number;
     unit : string;
@@ -14,7 +14,7 @@ class Recipe {
 
     constructor(id: number, nom: string, description: string, quantity: number, units: string, ingredients: Ingredient[] = [], steps: Step[] = []) {
         this.id = id;
-        this.nom = nom;
+        this.name = nom;
         this.description = description;
         this.quantity = quantity;
         this.unit = units;

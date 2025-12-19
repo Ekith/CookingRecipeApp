@@ -6,6 +6,7 @@ import {supabase} from "../App";
 import Ingredient from "../utils/Ingredient";
 import Step from "../utils/Step";
 import {useLocation} from "react-router-dom";
+import { downloadRecipePdf } from '../utils/recipeToPdf';
 
 
 function RecipeView() {
@@ -40,6 +41,7 @@ function RecipeView() {
             const newIngr = new Ingredient(r.ingredient.id, r.ingredient.name, r.quantity, r.unit);
             setListIngredients(prevIngredients => [...prevIngredients, newIngr]);
         }
+        recipe.ingredients = listIngredients;
     }
 
     async function fetchRecipies2(recipe : Recipe) {
@@ -55,11 +57,20 @@ function RecipeView() {
             const newStep = new Step(r.step.id, r.step.description, r.order, []);
             setListStep(prevSteps => [...prevSteps, newStep]);
         }
+        recipe.steps = listStep;
     }
 
     return (
         <div className="sub-container">
-            <h1 className="bigTitle">{recipe.nom}</h1>
+            <button
+                type="button"
+                className="tinyButton left"
+                onClick={
+                    () => {
+                        downloadRecipePdf(recipe, listIngredients, listStep);
+                }}
+            >Exporter</button>
+            <h1 className="bigTitle">{recipe.name}</h1>
             <div className="sub-container">
                 <p className="sub-container normal-text">Quantités pour {recipe.quantity} {recipe.unit}</p>
                 <p className="sub-container normal-text">{recipe.description}</p>
